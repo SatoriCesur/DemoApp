@@ -1,0 +1,360 @@
+/* ===========================================
+   ACORDEÓN EN CUADRANTES - ESTILOS LIMPIOS
+   =========================================== */
+
+/* Animaciones */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(52, 152, 219, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Contenedor principal del acordeón */
+#acordeon {
+  margin: 2rem 0;
+  padding: 0 20px;
+}
+
+#acordeon h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #3498db;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+/* Grid de cuadrantes */
+.acordeon {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  padding: 1rem;
+  animation: slideIn 0.6s ease-out;
+}
+
+/* Elementos del acordeón */
+.elemento {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.elemento:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+  animation: glow 2s infinite;
+}
+
+/* Efecto de barrido */
+.elemento::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+  z-index: 1;
+}
+
+.elemento:hover::before {
+  left: 100%;
+}
+
+/* Títulos del acordeón */
+.titulo-acordeon {
+  color: #ffffff;
+  padding: 1.5rem;
+  margin: 0;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  user-select: none;
+  flex-grow: 1;
+  min-height: 80px;
+  position: relative;
+  overflow: hidden;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.5px;
+}
+
+/* Efecto de brillo en títulos */
+.titulo-acordeon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.3s;
+}
+
+.titulo-acordeon:hover::before {
+  transform: translateX(100%);
+}
+
+/* Iconos + y - */
+.titulo-acordeon::after {
+  content: '+';
+  font-size: 1.5rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulse 2s infinite;
+}
+
+.titulo-acordeon.activo::after {
+  content: '−';
+  transform: rotate(180deg) scale(1.1);
+  animation: none;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Colores específicos para cada cuadrante */
+.elemento:nth-child(1) .titulo-acordeon {
+  background: linear-gradient(135deg, #e74c3c, #c0392b, #e74c3c);
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+}
+
+.elemento:nth-child(2) .titulo-acordeon {
+  background: linear-gradient(135deg, #27ae60, #229954, #27ae60);
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+}
+
+.elemento:nth-child(3) .titulo-acordeon {
+  background: linear-gradient(135deg, #f39c12, #e67e22, #f39c12);
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+}
+
+.elemento:nth-child(4) .titulo-acordeon {
+  background: linear-gradient(135deg, #9b59b6, #8e44ad, #9b59b6);
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+}
+
+/* Contenido del acordeón */
+.contenido-acordeon {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-out;
+  background: #ffffff;
+  position: relative;
+}
+
+.contenido-acordeon.activo {
+  max-height: 400px;
+  transition: max-height 0.4s ease-in;
+}
+
+/* Línea superior del contenido activo */
+.contenido-acordeon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #3498db, #2c3e50);
+  transform: scaleX(0);
+  transition: transform 0.3s;
+}
+
+.contenido-acordeon.activo::before {
+  transform: scaleX(1);
+}
+
+/* Párrafos */
+.contenido-acordeon p {
+  padding: 1.5rem;
+  margin: 0;
+  font-size: 0.95rem;
+  color: #2c3e50;
+  border-bottom: 1px solid #ecf0f1;
+  padding-bottom: 1rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  line-height: 1.7;
+}
+
+/* Listas */
+.contenido-acordeon ul {
+  list-style: none;
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  margin: 0;
+}
+
+.contenido-acordeon li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #ecf0f1;
+  position: relative;
+  padding-left: 2rem;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  font-weight: 500;
+  overflow: hidden;
+}
+
+.contenido-acordeon li:last-child {
+  border-bottom: none;
+}
+
+.contenido-acordeon li:hover {
+  background: rgba(52, 152, 219, 0.05);
+  padding-left: 2.5rem;
+}
+
+/* Línea de progreso en elementos de lista */
+.contenido-acordeon li::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: #3498db;
+  transition: width 0.3s;
+}
+
+.contenido-acordeon li:hover::after {
+  width: 100%;
+}
+
+/* Iconos de videojuegos */
+.contenido-acordeon li::before {
+  content: '🎮';
+  position: absolute;
+  left: 0;
+  top: 0.75rem;
+  font-size: 1rem;
+}
+
+/* Efectos de partículas en hover */
+.elemento:hover .titulo-acordeon::after {
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .acordeon {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+  
+  .elemento {
+    min-height: 150px;
+  }
+  
+  .elemento:hover {
+    animation: none;
+  }
+  
+  .titulo-acordeon {
+    padding: 1rem;
+    font-size: 1rem;
+    min-height: 60px;
+  }
+  
+  .titulo-acordeon::after {
+    animation: none;
+  }
+  
+  .elemento::before {
+    display: none;
+  }
+  
+  .contenido-acordeon p,
+  .contenido-acordeon ul {
+    padding: 1rem;
+  }
+  
+  .contenido-acordeon li {
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .acordeon {
+    padding: 0;
+  }
+  
+  .titulo-acordeon {
+    font-size: 0.9rem;
+    padding: 0.75rem;
+  }
+  
+  .contenido-acordeon p {
+    font-size: 0.85rem;
+  }
+  
+  .contenido-acordeon li {
+    font-size: 0.8rem;
+  }
+}
